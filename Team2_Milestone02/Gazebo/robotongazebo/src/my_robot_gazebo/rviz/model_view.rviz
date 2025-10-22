@@ -1,0 +1,12 @@
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz/RobotModel
+      Name: RobotModel
+      Enabled: true
+      Robot Description: robot_description
+  Global Options:
+    Fixed Frame: base_footprint
+  Window Geometry:
+    Width: 1200
+    Height: 800

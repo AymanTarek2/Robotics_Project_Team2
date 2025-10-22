@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <!-- Placeholder SDF. Gazebo will typically convert URDF to SDF when spawning via spawn_model.
+       This file exists so the 'models/my_robot' folder is a valid Gazebo model if you want to use the Insert tool.
+       You can replace this with an SDF export of your robot if desired. -->
+  <model name="my_robot">
+    <static>false</static>
+    <link name="base_link">
+      <pose>0 0 0 0 0 0</pose>
+      <visual name="visual">
+        <geometry><box><size>0.4 0.2 0.1</size></box></geometry>
+      </visual>
+      <collision name="collision">
+        <geometry><box><size>0.4 0.2 0.1</size></box></geometry>
+      </collision>
+      <inertial>
+        <mass>2.0</mass>
+        <inertia>
+          <ixx>0.01</ixx><iyy>0.02</iyy><izz>0.03</izz>
+          <ixy>0</ixy><ixz>0</ixz><iyz>0</iyz>
+        </inertia>
+      </inertial>
+    </link>
+  </model>
+</sdf>

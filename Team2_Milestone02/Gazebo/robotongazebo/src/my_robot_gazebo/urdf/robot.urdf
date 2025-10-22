@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="R5_DOF_Robot_Assembly">
+
+  <!-- ===== world alignment helper (no mass, no visuals) ===== -->
+  <link name="base_footprint"/>
+  <joint name="base_footprint_to_Base_Link" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="Base_Link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ===================== Base_Link ===================== -->
+  <link name="Base_Link">
+   <inertial>
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <mass value="0.8"/>
+  <inertia ixx="0.002" ixy="0" ixz="0" iyy="0.002" iyz="0" izz="0.002"/>
+</inertial>
+
+
+    <!-- visual (kept from SW export) -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://my_robot_gazebo/meshes/Base_Link.STL"/></geometry>
+      <material name=""><color rgba="1 0 0 1"/></material>
+    </visual>
+
+    <!-- stable collision: simple cylinder footprint -->
+    <collision>
+      <origin xyz="0 0 -0.030" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.060" length="0.020"/></geometry>
+    </collision>
+  </link>
+
+ 
+
+
+  <link name="Rotating_Waste">
+   <inertial>
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <mass value="0.7"/>
+  <inertia ixx="0.0015" ixy="0" ixz="0" iyy="0.0015" iyz="0" izz="0.0015"/>
+</inertial>
+
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://my_robot_gazebo/meshes/Rotating_Waste.STL"/></geometry>
+      <material name=""><color rgba="0.75294 0.75294 0.75294 1"/></material>
+    </visual>
+
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.055" length="0.010"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="Joint_1" type="revolute">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="Base_Link"/>
+    <child  link="Rotating_Waste"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14159" upper="3.14159" effort="200" velocity="2.0"/>
+  <dynamics damping="3.0" friction="0.2"/>
+
+  </joint>
+
+<gazebo reference="Joint_1">
+  <cfm>0.0</cfm><erp>0.2</erp><stop_cfm>0.0</stop_cfm><stop_erp>0.2</stop_erp>
+</gazebo>
+  <link name="Arm_1">
+  <inertial>
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <mass value="0.6"/>
+  <inertia ixx="0.0012" ixy="0" ixz="0" iyy="0.0004" iyz="0" izz="0.0012"/>
+</inertial>
+
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://my_robot_gazebo/meshes/Arm_1.STL"/></geometry>
+      <material name=""><color rgba="1 1 1 1"/></material>
+    </visual>
+
+
+    <collision>
+
+    <origin xyz="0 0 0.06" rpy="0 0 0"/>
+    <geometry>
+      <cylinder radius="0.020" length="0.12"/>
+    </geometry>
+  </collision>
+  </link>
+
+  <joint name="Joint_2" type="revolute">
+    <origin xyz="-2.7567E-05 0.0061999 0.04975" rpy="1.5708 0 0"/>
+    <parent link="Rotating_Waste"/>
+    <child  link="Arm_1"/>
+    <axis xyz="0 0 1"/>
+   <limit lower="-3.14159" upper="3.14159" effort="200" velocity="2.0"/>
+  <dynamics damping="3.0" friction="0.2"/>
+
+  </joint>
+
+
+  <link name="Arm_2">
+  <inertial>
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <mass value="0.5"/>
+  <inertia ixx="0.0009" ixy="0" ixz="0" iyy="0.0003" iyz="0" izz="0.0009"/>
+</inertial>
+
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://my_robot_gazebo/meshes/Arm_2.STL"/></geometry>
+      <material name=""><color rgba="0.75294 0.75294 0.75294 1"/></material>
+    </visual>
+
+
+    <collision>
+      <origin xyz="0 0 0.06" rpy="0 0 0"/>
+    <geometry>
+      <cylinder radius="0.018" length="0.12"/>
+    </geometry>
+
+    </collision>
+  </link>
+
+  <joint name="Joint_3" type="revolute">
+    <origin xyz="0 0.140 0.000" rpy="0 0 1.5708"/>
+    <parent link="Arm_1"/>
+    <child  link="Arm_2"/>
+    <axis xyz="0 0 -1"/>
+    <limit lower="-3.14159" upper="3.14159" effort="200" velocity="2.0"/>
+  <dynamics damping="3.0" friction="0.2"/>
+
+  </joint>
+  <gazebo reference="Joint_3">
+  <cfm>0.0</cfm><erp>0.2</erp><stop_cfm>0.0</stop_cfm><stop_erp>0.2</stop_erp>
+</gazebo>
+
+
+  <link name="Arm_3">
+ <inertial>
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <mass value="0.4"/>
+  <inertia ixx="0.0006" ixy="0" ixz="0" iyy="0.0002" iyz="0" izz="0.0006"/>
+</inertial>
+
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://my_robot_gazebo/meshes/Arm_3.STL"/></geometry>
+      <material name=""><color rgba="0.75294 0.75294 0.75294 1"/></material>
+    </visual>
+
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.015" length="0.140"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="Joint_4" type="revolute">
+    <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708"/>
+    <parent link="Arm_2"/>
+    <child  link="Arm_3"/>
+    <axis xyz="0 0 -1"/>
+   <limit lower="-3.14159" upper="3.14159" effort="200" velocity="2.0"/>
+  <dynamics damping="3.0" friction="0.2"/>
+
+  </joint>
+
+
+  <link name="Gripper">
+   <inertial>
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <mass value="0.3"/>
+  <inertia ixx="0.0003" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0003"/>
+</inertial>
+
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><mesh filename="package://my_robot_gazebo/meshes/Gripper.STL"/></geometry>
+      <material name=""><color rgba="1 0 0 1"/></material>
+    </visual>
+
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.030 0.080 0.030"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="Joint_5" type="revolute">
+    <origin xyz="-0.001651 -0.0054574 0.13289" rpy="1.5708 0 0"/>
+    <parent link="Arm_3"/>
+    <child  link="Gripper"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14159" upper="3.14159" effort="200" velocity="2.0"/>
+  <dynamics damping="3.0" friction="0.2"/>
+
+  </joint>
+<gazebo reference="Base_Link"><gravity>0</gravity><self_collide>false</self_collide><collide_bitmask>0</collide_bitmask></gazebo>
+<gazebo reference="Rotating_Waste"><gravity>0</gravity><self_collide>false</self_collide><collide_bitmask>0</collide_bitmask></gazebo>
+<gazebo reference="Arm_1"><gravity>0</gravity><self_collide>false</self_collide><collide_bitmask>0</collide_bitmask></gazebo>
+<gazebo reference="Arm_2"><gravity>0</gravity><self_collide>false</self_collide><collide_bitmask>0</collide_bitmask></gazebo>
+<gazebo reference="Arm_3"><gravity>0</gravity><self_collide>false</self_collide><collide_bitmask>0</collide_bitmask></gazebo>
+<gazebo reference="Gripper"><gravity>0</gravity><self_collide>false</self_collide><collide_bitmask>0</collide_bitmask></gazebo>
+
+
+<!-- === TOOL FRAME kept as a real link in Gazebo === -->
+<link name="EE_frame">
+  <!-- Minimal inertial: tiny mass + diagonal inertia -->
+  <inertial>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <mass value="0.001"/>
+    <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6"/>
+  </inertial>
+
+  <!-- Optional tiny visual marker so you can see it -->
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry><sphere radius="0.005"/></geometry>
+    <material name=""><color rgba="0 1 0 1"/></material>
+  </visual>
+
+  <!-- Optional tiny collision (we’ll disable contacts below anyway) -->
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry><sphere radius="0.001"/></geometry>
+  </collision>
+</link>
+
+<!-- Lock it to the Gripper but keep it as a separate body -->
+<joint name="EE_frame_lock" type="revolute">
+  <parent link="Gripper"/>
+  <child  link="EE_frame"/>
+  <!-- Set your desired offset/orientation of the frame w.r.t. Gripper -->
+  <origin xyz="0.007 0.1 0.013" rpy="0 0 0"/>
+  <axis xyz="1 0 0"/>
+  <limit lower="0.0" upper="0.0" effort="1" velocity="0.1"/>
+  <dynamics damping="1.0" friction="0.0"/>
+</joint>
+
+<!-- Gazebo per-link flags: no gravity, no self collisions, no contact generation -->
+<gazebo reference="EE_frame">
+  <gravity>0</gravity>
+  <self_collide>false</self_collide>
+  <collide_bitmask>0</collide_bitmask>
+</gazebo>
+
+
+
+ 
+
+<!-- ======= Transmissions: POSITION interface ======= -->
+<transmission name="Joint_1_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <actuator name="Joint_1_motor">
+    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+  <joint name="Joint_1">
+    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+  </joint>
+</transmission>
+
+<transmission name="Joint_2_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <actuator name="Joint_2_motor">
+    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+  <joint name="Joint_2">
+    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+  </joint>
+</transmission>
+
+<transmission name="Joint_3_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <actuator name="Joint_3_motor">
+    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+  <joint name="Joint_3">
+    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+  </joint>
+</transmission>
+
+<transmission name="Joint_4_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <actuator name="Joint_4_motor">
+    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+  <joint name="Joint_4">
+    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+  </joint>
+</transmission>
+
+<transmission name="Joint_5_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <actuator name="Joint_5_motor">
+    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+  <joint name="Joint_5">
+    <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+  </joint>
+</transmission>
+
+
+
+
+</robot>
+

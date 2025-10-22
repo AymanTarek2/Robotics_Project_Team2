@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<launch>
+  <!-- Launch Gazebo with GUI -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="gui" value="true"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="world_name" value="$(find my_robot_gazebo)/worlds/stable.world"/>
+  </include>
+
+  <!-- Load robot URDF into parameter server -->
+  <param name="robot_description" command="cat $(find my_robot_gazebo)/urdf/robot.urdf"/>
+
+  <!-- Spawn robot in Gazebo -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" output="screen"
+        args="-param robot_description -urdf -model my_robot -z 0.05 -J Joint_1 0.0 -J Joint_2 0.0 -J Joint_3 0.0 -J Joint_4 0.0 -J Joint_5 0.0"/>
+
+   <node pkg="robot_state_publisher" type="robot_state_publisher" name="rsp" output="screen"/>
+   
+   <node pkg="my_robot_gazebo" type="kinematic_joint_driver.py" name="kinematic_joint_driver" output="screen">
+    <param name="model_name" value="my_robot"/>
+    <param name="urdf_param" value="robot_description"/>
+    <param name="rate_hz" value="30"/>
+    <param name="epsilon" value="0.0005"/>
+    <param name="publish_joint_states" value="true"/>
+    <!-- map each joint to its topic -->
+     <rosparam param="joint_topic_map">
+      Joint_1: /Joint_1/command
+      Joint_2: /Joint_2/command
+      Joint_3: /Joint_3/command
+      Joint_4: /Joint_4/command
+      Joint_5: /Joint_5/command
+    </rosparam>
+  </node>
+  <node pkg="my_robot_gazebo" type="ee_pose_from_gazebo.py" name="ee_pose_from_gazebo">
+  <param name="link_name" value="my_robot::EE_frame"/>
+  <param name="reference_frame" value="world"/>
+  <param name="topic" value="end_effector_pose"/>
+  <param name="rate" value="30"/>
+</node>
+
+</launch>
+

@@ -1,0 +1,8 @@
+prefix=/home/ahmed/robotongazebo/install
+
+Name: my_robot_gazebo
+Description: Description of my_robot_gazebo
+Version: 0.0.1
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
